@@ -4,11 +4,21 @@ import customerRoutes from "./routes/customer.routes";
 import sequelize from "./config/database";
 import "./models/index.model";
 import { seedDatabase } from "./seeders/customer.seeder";
+import cors from 'cors';
 
 dotenv.config();
 
-
 const app = express();
+
+// Configuração CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use("/customers", customerRoutes);
 
