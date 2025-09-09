@@ -6,7 +6,6 @@ import Area from "../models/area.model";
 import Customer from "../models/customer.model";
 import Equipment from "../models/equipment.model";
 
-
 // Lê o arquivo JSON
 const seedFilePath = path.join(__dirname, "data", "fire_inspection_mock.json");
 const seedData = JSON.parse(fs.readFileSync(seedFilePath, "utf-8"));
@@ -29,6 +28,7 @@ export async function seedDatabase() {
       const [areaDb] = await Area.findOrCreate({
         where: { nome: area.nome, customerId: customer.id },
         defaults: {
+          nome: area.nome,
           latitude: area.latitude,
           longitude: area.longitude,
           customerId: customer.id,
@@ -40,6 +40,7 @@ export async function seedDatabase() {
         const [equipDb] = await Equipment.findOrCreate({
           where: { nome: equip.nome, areaId: areaDb.id },
           defaults: {
+            nome: equip.nome,
             tipo: equip.tipo,
             areaId: areaDb.id,
           },
