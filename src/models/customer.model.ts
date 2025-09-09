@@ -9,6 +9,9 @@ class Customer extends Model {
   public latitude!: number;
   public longitude!: number;
 
+  // ✅ Associação
+  public areas?: Area[];
+
   public getAreas!: HasManyGetAssociationsMixin<Area>;
 }
 

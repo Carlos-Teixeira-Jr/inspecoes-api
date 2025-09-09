@@ -1,7 +1,22 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/database";
+import Equipment from "./equipment.model";
 
-class Activity extends Model {
+interface ActivityAttributes {
+  id: number;
+  descricao: string;
+  equipmentId: number;
+  data?: Date;
+  data_inicio?: Date;
+  data_finalizacao?: Date;
+  status: string;
+  data_proxima_inspecao?: Date;
+  alerta?: string;
+}
+
+interface ActivityCreationAttributes extends Optional<ActivityAttributes, "id"> {}
+
+class Activity extends Model<ActivityAttributes, ActivityCreationAttributes> implements ActivityAttributes {
   public id!: number;
   public descricao!: string;
   public equipmentId!: number;
@@ -11,6 +26,13 @@ class Activity extends Model {
   public status!: string;
   public data_proxima_inspecao!: Date;
   public alerta!: string;
+
+  // ✅ Associação
+  public equipment?: Equipment;
+
+  // timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 Activity.init(
