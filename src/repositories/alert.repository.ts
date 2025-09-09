@@ -48,7 +48,7 @@ export class AlertRepository {
     });
 
     // Transformar para formato mais fácil no front
-    const alertas = rows.map((atividade) => {
+    const alerts = rows.map((atividade) => {
       const equipamento = atividade.equipment;
       const area = equipamento?.area;
       const cliente = area?.customer;
@@ -64,6 +64,6 @@ export class AlertRepository {
       };
     });
 
-    return { total: count, alertas };
+    return { total: count, alerts };
   }
 }

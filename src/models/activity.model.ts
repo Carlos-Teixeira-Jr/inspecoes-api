@@ -7,10 +7,10 @@ interface ActivityAttributes {
   descricao: string;
   equipmentId: number;
   data?: Date;
-  data_inicio?: Date;
-  data_finalizacao?: Date;
+  data_inicio?: Date | string;
+  data_finalizacao?: Date | string;
   status: string;
-  data_proxima_inspecao?: Date;
+  data_proxima_inspecao?: Date | string;
   alerta?: string;
 }
 

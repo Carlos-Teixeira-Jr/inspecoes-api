@@ -4,17 +4,13 @@ import { AlertService } from "../services/alert.service";
 const alertService = new AlertService();
 
 export class AlertController {
+
   async getAlerts(req: Request, res: Response) {
-    try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const status = (req.query.status as string) || null;
 
-      const result = await alertService.getAlerts(page, limit);
-
-      res.status(200).json(result);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Erro ao buscar alertas" });
-    }
+    const data = await alertService.getAlerts(page, limit, status);
+    res.json(data);
   }
 }
