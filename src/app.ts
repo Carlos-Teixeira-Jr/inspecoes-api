@@ -42,7 +42,7 @@ async function initDatabase() {
 
 initDatabase();
 
-// Só inicia o servidor localmente
+// Local: roda com listen
 if (process.env.MODE === "development") {
   const port = process.env.SERVER_PORT || 3000;
   app.listen(port, () => {
@@ -50,5 +50,6 @@ if (process.env.MODE === "development") {
   });
 }
 
-// 👉 No Vercel exporta como função serverless
+// Vercel: exporta como handler
 export const handler = serverless(app);
+export default app;

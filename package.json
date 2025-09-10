@@ -1,12 +1,12 @@
 {
   "name": "dashboard-inspecoes-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
-    "cercel-build": "echo hello"
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,6 @@
     "@types/node": "^24.3.1",
     "@types/sequelize": "^4.28.20",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.6.3"
   }
 }
