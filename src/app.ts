@@ -12,29 +12,23 @@ dotenv.config();
 
 const app = express();
 
-// Configuração CORS
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+// CORS
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use("/customers", customerRoutes);
 app.use("/alerts", alertsRoutes);
 
+// Inicializa o banco
 async function initDatabase() {
   try {
     await sequelize.authenticate();
-    console.log("Conectado ao banco de dados");
-
     await sequelize.sync({ alter: true });
-    console.log("Tabelas sincronizadas");
-
     await seedDatabase();
-    console.log("Dados iniciais inseridos (seed) com sucesso");
   } catch (err) {
     console.error("Erro ao iniciar a aplicação:", err);
   }
@@ -42,14 +36,12 @@ async function initDatabase() {
 
 initDatabase();
 
-// Local: roda com listen
+// Apenas local
 if (process.env.MODE === "development") {
   const port = process.env.SERVER_PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-  });
+  app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
 }
 
-// Vercel: exporta como handler
+// Exporta handler para Vercel
 export const handler = serverless(app);
 export default app;
