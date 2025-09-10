@@ -1,24 +1,35 @@
-import 'pg';
+import "pg";
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 dotenv.config();
 
+// define MODE: "development" ou "production"
+const MODE = process.env.MODE || "development";
+const PREFIX = MODE === "production" ? "PROD" : "DEV";
+
+function getEnv(key: string, fallback = "") {
+  return process.env[`${PREFIX}_${key}`] || fallback;
+}
+
 const sequelize = new Sequelize(
-  process.env.DB_NAME || "",
-  process.env.DB_USER || "",
-  process.env.DB_PASSWORD || "",
+  getEnv("DB_NAME"),
+  getEnv("DB_USER"),
+  getEnv("DB_PASSWORD"),
   {
-    host: process.env.DB_HOST || "localhost",
-    port: Number(process.env.DB_PORT) || 5432,
+    host: getEnv("DB_HOST", "localhost"),
+    port: Number(getEnv("DB_PORT", "5432")),
     dialect: "postgres",
     logging: false,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
+    dialectOptions:
+      MODE === "production"
+        ? {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
+            },
+          }
+        : {},
   }
 );
 
