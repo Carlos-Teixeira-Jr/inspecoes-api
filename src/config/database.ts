@@ -12,25 +12,22 @@ function getEnv(key: string, fallback = "") {
   return process.env[`${PREFIX}_${key}`] || fallback;
 }
 
+console.log(process.env.PROD_DB_URL)
+
 const sequelize = new Sequelize(
-  getEnv("DB_NAME"),
-  getEnv("DB_USER"),
-  getEnv("DB_PASSWORD"),
+  `${process.env.PROD_DB_URL}`,
   {
-    host: getEnv("DB_HOST", "localhost"),
-    port: Number(getEnv("DB_PORT", "5432")),
+    // host: process.env.PROD_DB_HOST,
+    // port: Number(process.env.PROD_DB_PORT),
     dialect: "postgres",
     dialectModule: require("pg"),
     logging: false,
-    dialectOptions:
-      MODE === "production"
-        ? {
-            ssl: {
-              require: true,
-              rejectUnauthorized: false,
-            },
-          }
-        : {},
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 
