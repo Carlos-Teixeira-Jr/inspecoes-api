@@ -5,6 +5,8 @@ import sequelize from "./config/database";
 //   console.log(`Server rodando na porta ${process.env.DEV_DB_PORT}`);
 // });
 
+
+
 async function startServer() {
   try {
     // Testa a conexão com o banco
