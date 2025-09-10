@@ -17,8 +17,8 @@ async function startServer() {
     await sequelize.sync({ alter: true });
     console.log("Tabelas sincronizadas");
 
-    app.listen(process.env.DEV_SERVER_PORT, () => {
-      console.log(`Server rodando na porta ${process.env.DEV_SERVER_PORT}`);
+    app.listen(3000, () => {
+      console.log(`Server rodando na porta 3000`);
     });
 
     // Popula dados do JSON se ainda não existirem
