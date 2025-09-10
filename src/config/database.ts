@@ -20,6 +20,7 @@ const sequelize = new Sequelize(
     host: getEnv("DB_HOST", "localhost"),
     port: Number(getEnv("DB_PORT", "5432")),
     dialect: "postgres",
+    dialectModule: require("pg"),
     logging: false,
     dialectOptions:
       MODE === "production"
