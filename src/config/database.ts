@@ -15,7 +15,7 @@ function getEnv(key: string, fallback = "") {
 console.log(process.env.PROD_DB_URL)
 
 const sequelize = new Sequelize(
-  `${process.env.PROD_DB_URL}`,
+  process.env.PROD_DB_URL as string,
   {
     // host: process.env.PROD_DB_HOST,
     // port: Number(process.env.PROD_DB_PORT),
