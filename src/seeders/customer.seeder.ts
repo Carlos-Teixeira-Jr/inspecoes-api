@@ -8,8 +8,9 @@ import Equipment from "../models/equipment.model";
 
 // Lê o arquivo JSON
 const seedFilePath = path.join(__dirname, "data", "fire_inspection_mock.json");
-const seedData = JSON.parse(fs.readFileSync(seedFilePath, "utf-8"));
-console.log(Array.isArray(seedData));
+const seedDataRaw = JSON.parse(fs.readFileSync(seedFilePath, "utf-8"));
+const seedData = Array.isArray(seedDataRaw) ? seedDataRaw : seedDataRaw.clientes;
+
 
 export async function seedDatabase() {
   for (const cust of seedData) {
