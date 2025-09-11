@@ -1,11 +1,6 @@
 import app from "./app/app";
 import sequelize from "./config/database";
-
-// app.listen(process.env.DEV_DB_PORT, () => {
-//   console.log(`Server rodando na porta ${process.env.DEV_DB_PORT}`);
-// });
-
-
+import { seedDatabase } from "./seeders/customer.seeder";
 
 async function startServer() {
   try {
@@ -22,18 +17,18 @@ async function startServer() {
     });
 
     // Popula dados do JSON se ainda não existirem
-    // await seedDatabase();
-    // console.log("Dados iniciais inseridos (seed) com sucesso");
+    await seedDatabase();
+    console.log("Dados iniciais inseridos (seed) com sucesso");
 
     // Inicia o servidor **somente se estiver local**
-    // if (process.env.MODE === "development") {
-    //   const port = process.env.SERVER_PORT || 3000;
-    //   app.listen(port, () => {
-    //     console.log(`Servidor rodando na porta ${port}`);
-    //   });
-    // } else {
-    //   console.log("Rodando em serverless, app.listen não é chamado");
-    // }
+    if (process.env.MODE === "development") {
+      const port = process.env.DEV_SERVER_PORT || 3000;
+      app.listen(port, () => {
+        console.log(`Servidor rodando na porta ${port}`);
+      });
+    } else {
+      console.log("Rodando em serverless, app.listen não é chamado");
+    }
   } catch (err) {
     console.error("Erro ao iniciar a aplicação:", err);
   }

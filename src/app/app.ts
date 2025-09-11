@@ -1,9 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import customerRoutes from "../routes/customer.routes";
-import sequelize from "../config/database";
 import "../models/index.model";
-// import { seedDatabase } from "../seeders/customer.seeder";
 import cors from 'cors';
 import alertsRoutes from "../routes/alerts.routes";
 

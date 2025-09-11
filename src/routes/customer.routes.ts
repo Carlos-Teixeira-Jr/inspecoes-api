@@ -6,5 +6,6 @@ const controller = new CustomerController();
 
 router.post("/", (req, res) => controller.createCustomer(req, res));
 router.get("/", (req, res) => controller.getCustomers(req, res));
+router.get("/customerFilter", (req, res) => controller.getCustomersByFilter(req, res));
 
 export default router;

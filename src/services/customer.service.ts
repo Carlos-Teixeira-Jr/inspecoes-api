@@ -24,4 +24,19 @@ export class CustomerService {
   async getCustomers(page: number = 1, limit: number = 10) {
     return await this.repository.getAllCustomers(page, limit);
   }
+
+  async getCustomersByFilter(filters: {
+    status?: string;
+    cliente?: string;
+    area?: string;
+    tipoEquipamento?: string;
+    page?: number;
+    limit?: number;
+  }) {
+    const result = await this.repository.findByFilters(filters);
+    return {
+      total: result.count,
+      customers: result.rows,
+    };
+  }
 }

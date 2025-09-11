@@ -2,6 +2,16 @@ import Customer from "../models/customer.model";
 import Area from "../models/area.model";
 import Equipment from "../models/equipment.model";
 import Activity from "../models/activity.model";
+import { Op } from "sequelize";
+
+interface GetCustomersFilters {
+  status?: string;
+  cliente?: string;
+  area?: string;
+  tipoEquipamento?: string;
+  page?: number;
+  limit?: number;
+}
 
 export class CustomerRepository {
   async createCustomer(customerData: any) {
@@ -37,6 +47,67 @@ export class CustomerRepository {
     });
 
     return { total: count, customers: rows };
+  }
+
+  async findByFilters(filters: GetCustomersFilters) {
+    const {
+      status,
+      cliente,
+      area,
+      tipoEquipamento,
+      page = 1,
+      limit = 10,
+    } = filters;
+
+    const whereCustomer: any = {};
+    const whereArea: any = {};
+    const whereEquipment: any = {};
+    const whereActivity: any = {};
+
+    if (cliente) whereCustomer.nome = { [Op.iLike]: `%${cliente}%` };
+    if (area) whereArea.nome = { [Op.iLike]: `%${area}%` };
+    if (tipoEquipamento) whereEquipment.tipo = tipoEquipamento;
+
+    if (status) {
+      if (status === "atrasada") {
+        whereActivity.alerta = "Atraso > 7 dias";
+      } else {
+        whereActivity.status = status;
+      }
+    }
+
+    const customers = await Customer.findAndCountAll({
+      where: whereCustomer,
+      include: [
+        {
+          model: Area,
+          as: "areas",
+          where: whereArea,
+          required: false,
+          include: [
+            {
+              model: Equipment,
+              as: "equipamentos",
+              where: whereEquipment,
+              required: false,
+              include: [
+                {
+                  model: Activity,
+                  as: "atividade",
+                  where: whereActivity,
+                  required: false,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      offset: (page - 1) * limit,
+      limit,
+      distinct: true,
+    });
+
+    return customers;
   }
 
   async createArea(areaData: any, customerId: number) {

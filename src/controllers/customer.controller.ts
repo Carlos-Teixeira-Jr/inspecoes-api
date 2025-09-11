@@ -28,4 +28,25 @@ export class CustomerController {
       res.status(500).json({ error: "Erro ao buscar clientes" });
     }
   }
+
+  async getCustomersByFilter(req: Request, res: Response) {
+    try {
+      const { page, limit, status, cliente, area, tipoEquipamento } = req.query;
+
+      const filters = {
+        page: Number(page) || 1,
+        limit: Number(limit) || 10,
+        status: status as string,
+        cliente: cliente as string,
+        area: area as string,
+        tipoEquipamento: tipoEquipamento as string,
+      };
+
+      const data = await service.getCustomersByFilter(filters);
+      res.json(data);
+    } catch (error) {
+      console.error("Erro no CustomerController:", error);
+      res.status(500).json({ message: "Erro ao buscar clientes" });
+    }
+  }
 }
