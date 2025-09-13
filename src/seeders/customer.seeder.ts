@@ -1,4 +1,3 @@
-// src/seedDatabase.ts
 import fs from "fs";
 import path from "path";
 import Activity from "../models/activity.model";
